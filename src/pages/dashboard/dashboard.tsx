@@ -4,6 +4,7 @@ export const Dashboard = () => {
       <h1>Dashboard</h1>
       <button>Adicionar Despesa</button>
       <button>Adcionar Receita</button>
+      <button>Adcionar Cartão de Débito</button>
       <table>
         <thead>
           <tr>
