@@ -1,4 +1,5 @@
 import create from "zustand";
+import { persist } from "zustand/middleware";
 type CategoryType = {
   name: string;
   id: number;
@@ -9,16 +10,24 @@ interface CategoryStore {
   addCategory: (name: string) => void;
   removeCategory: (id: number) => void;
 }
-export const useCategoryStore = create<CategoryStore>((set) => ({
-  categories: [],
-  addCategory: (name: string) => {
-    set((state) => ({
-      categories: [...state.categories, { name, id: state.categories.length }],
-    }));
-  },
-  removeCategory: (id: number) => {
-    set((state) => ({
-      categories: state.categories.filter((category) => category.id !== id),
-    }));
-  },
-}));
+export const useCategoryStore = create(
+  persist<CategoryStore>(
+    (set) => ({
+      categories: Array<CategoryType>(),
+      addCategory: (name: string) => {
+        set((state) => ({
+          categories: [
+            ...state.categories,
+            { name, id: state.categories.length },
+          ],
+        }));
+      },
+      removeCategory: (id: number) => {
+        set((state) => ({
+          categories: state.categories.filter((category) => category.id !== id),
+        }));
+      },
+    }),
+    { name: "financas-categories" }
+  )
+);
